@@ -1,7 +1,7 @@
 #ファイルの読み込み
 import xlrd
 
-grade = "pretwo"
+grade = "five"
 
 loc = (f"{grade}.xlsx")
 wb = xlrd.open_workbook(loc)

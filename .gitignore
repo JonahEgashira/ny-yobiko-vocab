@@ -1,0 +1,14 @@
+/.vscode
+/LOGOs
+/pre_two_from
+/pre_two_to
+/two_from
+/two_to
+/英検2級単語テスト
+/英検準2級単語テスト
+
+
+*.xlsx
+*.jpg
+*.pdf
+*.zip
