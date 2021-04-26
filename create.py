@@ -1,7 +1,9 @@
 #ファイルの読み込み
 import xlrd
 
-grade = "five"
+grade = "three"
+jp_grade = "3級"
+max_col = 8
 
 loc = (f"{grade}.xlsx")
 wb = xlrd.open_workbook(loc)
@@ -21,7 +23,7 @@ while True:
   jp_words = []
 
   j = 5
-  while j <= 8:
+  while j <= max_col:
     jp_word = sheet.cell_value(i, j)
     #print(jp_word)
     if jp_word == "":
@@ -30,7 +32,8 @@ while True:
     #ここで日本語文字列から英単語を抽出して消す(予定)
     #to, with とかの言葉はリストで管理して消さないようにする
 
-    jp_word = ''.join(jp_word.splitlines())
+    
+    jp_word = ''.join(str(jp_word).splitlines())
     jp_words.append(jp_word)
     j += 1
 
@@ -43,8 +46,6 @@ while True:
 
 total_length = len(en_problem_set)
 current_page = en_problem_set[0][0]
-
-
 
 ### ランダムに問題を入れ替えて、ファイルに出力 ###
 import random
@@ -119,7 +120,6 @@ while idx < total_length:
     jp_pg_cell_format.set_align('vcenter')
     
 
-
     #英語
     en_cell_format.set_text_wrap()
     en_cell_format.set_font_size(15)
@@ -135,8 +135,6 @@ while idx < total_length:
     en_worksheet.set_column('D:D', width=24)
 
     #日本語
-
-
     jp_cell_format.set_text_wrap()
     jp_cell_format.set_font_size(10)
     jp_cell_format.set_align('top')
@@ -145,22 +143,17 @@ while idx < total_length:
     jp_cell_format.set_shrink()
     jp_cell_format.set_font_name('Hiragino Sans')
 
-
-
-
     jp_worksheet.set_column('A:A', width=22)
     jp_worksheet.set_column('B:B', width=16)
     jp_worksheet.set_column('C:C', width=22)
     jp_worksheet.set_column('D:D', width=16)
-
-
 
     #15 * 4のテーブル
     length = len(en_problems)
     mod = 9
 
     #英語の問題
-    en_worksheet.set_header(f'&C&16&"Hiragino Sans,Regular"英検準2級単語テスト&R&16&"Times New Roman,Regular"', {'margin':0.5})
+    en_worksheet.set_header(f'&C&16&"Hiragino Sans,Regular"英検{jp_grade}単語テスト&R&16&"Times New Roman,Regular"', {'margin':0.5})
 
     en_worksheet.write(0, 3, f'Pg{page_begin}-{page_end}', en_pg_cell_format)
 
@@ -194,7 +187,7 @@ while idx < total_length:
     en_workbook.close()
 
     #日本語の問題
-    jp_worksheet.set_header(f'&C&16&"Hiragino Sans,Regular"英検準2級単語テスト&R&16&"Times New Roman,Regular"', {'margin':0.5})
+    jp_worksheet.set_header(f'&C&16&"Hiragino Sans,Regular"英検{jp_grade}単語テスト&R&16&"Times New Roman,Regular"', {'margin':0.5})
     
     jp_worksheet.write(0, 3, f'Pg{page_begin}-{page_end}', jp_pg_cell_format)
 

@@ -1,10 +1,10 @@
 import os
 import shutil
 
-grade = "pretwo"
+grade = "three"
 
 page_begin = 10
-page_end = 209
+page_end = 190
 
 for i in range(page_begin, page_end + 1, 2):
   for idx in range(5):
