@@ -1,10 +1,11 @@
 import os
+import sys
 import shutil
 
-grade = "five"
+grade = sys.argv[1]
 
-page_begin = 14
-page_end = 137
+page_begin = int(sys.argv[2])
+page_end = int(sys.argv[3])
 
 for i in range(page_begin, page_end + 1, 2):
     for idx in range(5):

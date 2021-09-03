@@ -1,12 +1,13 @@
 # ファイルの読み込み
+import sys
 import os
 import xlsxwriter
 import random
 import xlrd
 
-grade = "five"
-jp_grade = "5級"
-max_col = 8
+grade = sys.argv[1]
+jp_grade = sys.argv[2]
+max_col = 10
 
 loc = (f"{grade}.xlsx")
 wb = xlrd.open_workbook(loc)
@@ -17,9 +18,11 @@ jp_problem_set = []
 
 i = 1
 while True:
-    page_index = sheet.cell_value(i, 1)
-    if page_index == "end":
+    try:
+        page_index = sheet.cell_value(i, 1)
+    except IndexError:
         break
+
     # 英単語を取ってくる場合は3,日本語の意味を取ってくる場合は5~
     # 日本語の意味を複数個取ってこれるようにする
     en_word = sheet.cell_value(i, 3)
@@ -27,17 +30,20 @@ while True:
 
     j = 5
     while j <= max_col:
-        jp_word = sheet.cell_value(i, j)
-        # print(jp_word)
-        if jp_word == "":
+        try:
+            jp_word = sheet.cell_value(i, j)
+            # print(jp_word)
+            if jp_word == "":
+                break
+
+            # ここで日本語文字列から英単語を抽出して消す(予定)
+            # to, with とかの言葉はリストで管理して消さないようにする
+
+            jp_word = ''.join(str(jp_word).splitlines())
+            jp_words.append(jp_word)
+            j += 1
+        except IndexError:
             break
-
-        # ここで日本語文字列から英単語を抽出して消す(予定)
-        # to, with とかの言葉はリストで管理して消さないようにする
-
-        jp_word = ''.join(str(jp_word).splitlines())
-        jp_words.append(jp_word)
-        j += 1
 
     en_problem_set.append([int(page_index), en_word])
     jp_problem_set.append([int(page_index), jp_words])
@@ -82,7 +88,7 @@ while idx < total_length:
         os.mkdir(f"{dir_path}/en")
 
     if not os.path.exists(f"{dir_path}/jp"):
-        os.mkdir(f"{dir_path}/en")
+        os.mkdir(f"{dir_path}/jp")
 
     if not os.path.exists(f"{dir_path}/en/pdf"):
         os.mkdir(f"{dir_path}/en/pdf")
@@ -91,10 +97,10 @@ while idx < total_length:
         os.mkdir(f"{dir_path}/en/xlsx")
 
     if not os.path.exists(f"{dir_path}/jp/pdf"):
-        os.mkdir(f"{dir_path}/en/pdf")
+        os.mkdir(f"{dir_path}/jp/pdf")
 
     if not os.path.exists(f"{dir_path}/jp/xlsx"):
-        os.mkdir(f"{dir_path}/en/xlsx")
+        os.mkdir(f"{dir_path}/jp/xlsx")
 
     # 何部コピーを作るか
     copy_number = 5
@@ -166,7 +172,7 @@ while idx < total_length:
         en_worksheet.write(
             0, 3, f'Pg{page_begin}-{page_end}', en_pg_cell_format)
 
-        #en_worksheet.set_footer('&R&G', {'image_right': 'LOGO_B1_copy1.jpg'})
+        # en_worksheet.set_footer('&R&G', {'image_right': 'LOGO_B1_copy1.jpg'})
         en_worksheet.set_margins(left=0.7, right=0.0, top=0.75, bottom=0.75)
         en_worksheet.insert_image('C12', 'LOGO_B1.jpg', {
                                   'x_offset': 76.5, 'y_offset': 30, 'x_scale': 0.045, 'y_scale': 0.045})
@@ -205,7 +211,7 @@ while idx < total_length:
             0, 3, f'Pg{page_begin}-{page_end}', jp_pg_cell_format)
 
         jp_worksheet.set_margins(left=0.7, right=0.0, top=0.75, bottom=0.75)
-        #jp_worksheet.set_footer('&R&G', {'image_right': 'LOGO_B1_copy1.jpg'})
+        # jp_worksheet.set_footer('&R&G', {'image_right': 'LOGO_B1_copy1.jpg'})
         jp_worksheet.insert_image('C12', 'LOGO_B1.jpg', {
                                   'x_offset': 76.5, 'y_offset': 30, 'x_scale': 0.045, 'y_scale': 0.045})
         jp_worksheet.center_horizontally()

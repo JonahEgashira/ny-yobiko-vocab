@@ -1,10 +1,12 @@
-## HOW TO USE(for myself)
+## 使い方
 
-### create.py
-- 級を入力
-- columnの最大を確認デフォは8
+### 必要なもの
+- python, pipenv(パッケージを入れられればなんでもよい)
+- Libreoffice
 
-### convert.exe or .sh
+- pipenvで必要なモジュールをインストール
+- python create.py "five" "5級" で5級のテスト作成
+- convert.shでxlsxをpdfに変換
+- move.pyのファイル内にページ開始と終了の数字を入力
+- python move.py
 
-### move.py
-- input page-begin, page-end
