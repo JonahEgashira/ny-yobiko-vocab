@@ -1,3 +1,10 @@
-## Description
-英検でる順パス単のxlsxファイルから塾で使用できる単語テストをpdf形式で生成します。
-セクションごとにテストを作成し、順番がランダムなテストを5つずつ生成します。
+## HOW TO USE(for myself)
+
+### create.py
+- 級を入力
+- columnの最大を確認デフォは8
+
+### convert.exe or .sh
+
+### move.py
+- input page-begin, page-end

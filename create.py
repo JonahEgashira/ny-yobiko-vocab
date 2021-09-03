@@ -4,8 +4,8 @@ import xlsxwriter
 import random
 import xlrd
 
-grade = "three"
-jp_grade = "3級"
+grade = "five"
+jp_grade = "5級"
 max_col = 8
 
 loc = (f"{grade}.xlsx")
@@ -75,15 +75,26 @@ while idx < total_length:
     dir_path = (f"./{grade}_pg{page_begin}-{page_end}")
     dir_path = (f"./{grade}_pg{page_begin}-{page_end}")
 
-    os.mkdir(dir_path)
-    os.mkdir(f"{dir_path}/en")
-    os.mkdir(f"{dir_path}/jp")
+    if not os.path.exists(dir_path):
+        os.mkdir(dir_path)
 
-    os.mkdir(f"{dir_path}/en/pdf")
-    os.mkdir(f"{dir_path}/en/xlsx")
+    if not os.path.exists(f"{dir_path}/en"):
+        os.mkdir(f"{dir_path}/en")
 
-    os.mkdir(f"{dir_path}/jp/pdf")
-    os.mkdir(f"{dir_path}/jp/xlsx")
+    if not os.path.exists(f"{dir_path}/jp"):
+        os.mkdir(f"{dir_path}/en")
+
+    if not os.path.exists(f"{dir_path}/en/pdf"):
+        os.mkdir(f"{dir_path}/en/pdf")
+
+    if not os.path.exists(f"{dir_path}/en/xlsx"):
+        os.mkdir(f"{dir_path}/en/xlsx")
+
+    if not os.path.exists(f"{dir_path}/jp/pdf"):
+        os.mkdir(f"{dir_path}/en/pdf")
+
+    if not os.path.exists(f"{dir_path}/jp/xlsx"):
+        os.mkdir(f"{dir_path}/en/xlsx")
 
     # 何部コピーを作るか
     copy_number = 5
