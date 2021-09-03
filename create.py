@@ -172,7 +172,6 @@ while idx < total_length:
         en_worksheet.write(
             0, 3, f'Pg{page_begin}-{page_end}', en_pg_cell_format)
 
-        # en_worksheet.set_footer('&R&G', {'image_right': 'LOGO_B1_copy1.jpg'})
         en_worksheet.set_margins(left=0.7, right=0.0, top=0.75, bottom=0.75)
         en_worksheet.insert_image('C12', 'LOGO_B1.jpg', {
                                   'x_offset': 76.5, 'y_offset': 30, 'x_scale': 0.045, 'y_scale': 0.045})
@@ -211,7 +210,6 @@ while idx < total_length:
             0, 3, f'Pg{page_begin}-{page_end}', jp_pg_cell_format)
 
         jp_worksheet.set_margins(left=0.7, right=0.0, top=0.75, bottom=0.75)
-        # jp_worksheet.set_footer('&R&G', {'image_right': 'LOGO_B1_copy1.jpg'})
         jp_worksheet.insert_image('C12', 'LOGO_B1.jpg', {
                                   'x_offset': 76.5, 'y_offset': 30, 'x_scale': 0.045, 'y_scale': 0.045})
         jp_worksheet.center_horizontally()
