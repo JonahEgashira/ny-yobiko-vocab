@@ -17,21 +17,25 @@ for i in range(page_begin, page_end + 1, 2):
         dir_path = f"{grade}_pg{i}-{i + 1}/"
 
         try:
-            shutil.move(en_xlsx_name, f"{dir_path}/en/xlsx")
+            if not os.path.exists(f"{dir_path}/en/xlsx/{en_xlsx_name}"):
+                shutil.move(en_xlsx_name, f"{dir_path}/en/xlsx")
         except FileNotFoundError:
             print(f"${en_xlsx_name} not found")
 
         try:
-            shutil.move(jp_xlsx_name, f"{dir_path}/jp/xlsx")
+            if not os.path.exists(f"{dir_path}/jp/xlsx/{jp_xlsx_name}"):
+                shutil.move(jp_xlsx_name, f"{dir_path}/jp/xlsx")
         except FileNotFoundError:
             print(f"${jp_xlsx_name} not found")
 
         try:
-            shutil.move(en_pdf_name, f"{dir_path}/en/pdf")
+            if not os.path.exists(f"{dir_path}/en/pdf/{en_pdf_name}"):
+                shutil.move(en_pdf_name, f"{dir_path}/en/pdf")
         except FileNotFoundError:
             print(f"${en_pdf_name} not found")
 
         try:
-            shutil.move(jp_pdf_name, f"{dir_path}/jp/pdf")
+            if not os.path.exists(f"{dir_path}/jp/pdf/{jp_pdf_name}"):
+                shutil.move(jp_pdf_name, f"{dir_path}/jp/pdf")
         except FileNotFoundError:
             print(f"${jp_pdf_name} not found")
