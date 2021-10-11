@@ -5,7 +5,10 @@ import random
 import xlrd
 
 grade = sys.argv[1]
-jp_grade = sys.argv[2]
+grade_dict = {'five': '5級', 'four': '4級', 'three': '3級',
+              'pre-two': '準2級', 'two': '2級', 'pre-one': '準1級'}
+jp_grade = grade_dict[grade]
+
 max_col = 10
 
 loc = (f"{grade}.xlsx")

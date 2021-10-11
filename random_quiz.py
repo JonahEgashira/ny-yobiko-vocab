@@ -1,81 +1,73 @@
-# ファイルの読み込み
+import csv
 import sys
 import os
-import xlsxwriter
 import random
+import xlsxwriter
 import xlrd
 
 grade = sys.argv[1]
-jp_grade = sys.argv[2]
-max_col = 10
+grade_dict = {'five': '5級', 'four': '4級', 'three': '3級',
+              'pre-two': '準2級', 'two': '2級', 'pre-one': '準1級'}
+jp_grade = grade_dict[grade]
+
 
 loc = (f"{grade}.xlsx")
 wb = xlrd.open_workbook(loc)
 sheet = wb.sheet_by_index(0)
 
-en_problem_set = []
-jp_problem_set = []
+data = []
 
 i = 1
 while True:
     try:
-        page_index = sheet.cell_value(i, 1)
+        row = sheet.row_values(i)
+        data.append(row)
     except IndexError:
         break
+    i = i + 1
 
-    # 英単語を取ってくる場合は3,日本語の意味を取ってくる場合は5~
-    # 日本語の意味を複数個取ってこれるようにする
-    en_word = sheet.cell_value(i, 3)
-    jp_words = []
+page_list = []
+with open(f"{grade}_page.csv", newline='') as csvfile:
+    reader = csv.reader(csvfile)
+    for row in reader:
+        page_list.append([int(row[0]), int(row[1])])
 
-    j = 5
-    while j <= max_col:
+
+for page in page_list:
+    page_begin = page[0]
+    page_end = page[1]
+
+    en_problem_candidates = []
+    jp_problem_candidates = []
+
+    for row in data:
         try:
-            jp_word = sheet.cell_value(i, j)
-            # print(jp_word)
-            if jp_word == "":
-                break
-
-            # ここで日本語文字列から英単語を抽出して消す(予定)
-            # to, with とかの言葉はリストで管理して消さないようにする
-
-            jp_word = ''.join(str(jp_word).splitlines())
-            jp_words.append(jp_word)
-            j += 1
-        except IndexError:
+            current_page = int(row[1])
+        except ValueError:
             break
 
-    en_problem_set.append([int(page_index), en_word])
-    jp_problem_set.append([int(page_index), jp_words])
-    i += 1
+        if not page_begin <= current_page <= page_end:
+            continue
 
-# print(en_problem_set)
-# problem_set [問題のページ番号, 単語（日本語だったら複数）]
+        jp_idx = 5
+        en_word = str(row[3])
+        jp_words = []
+        while True:
+            try:
+                jp_word = row[jp_idx]
+                if len(jp_word) == 0:
+                    break
 
-total_length = len(en_problem_set)
-current_page = en_problem_set[0][0]
+                jp_word = ''.join(str(jp_word).splitlines())
+                jp_words.append(jp_word)
+                jp_idx += 1
+            except IndexError:
+                break
 
-### ランダムに問題を入れ替えて、ファイルに出力 ###
+        en_problem_candidates.append(en_word)
+        jp_problem_candidates.append(jp_words)
 
-# xlsxに書き込みできるライブラリ
-
-idx = 0
-total_problem_set = 0
-while idx < total_length:
-    en_problems = []
-    jp_problems = []
-    while idx < total_length and en_problem_set[idx][0] <= current_page + 1:
-
-        # ページ番号２個ずつ問題セットに追加
-        # 英語
-        en_problems.append(en_problem_set[idx][1])
-        # 日本語　
-        jp_problems.append(jp_problem_set[idx][1])
-
-        idx += 1
-
-    page_begin = current_page
-    page_end = current_page + 1
+    problem_number = 20
 
     # 問題ページに対応したディレクトリを作成
     dir_path = (f"./{grade}_pg{page_begin}-{page_end}")
@@ -103,10 +95,9 @@ while idx < total_length:
 
     # 何部コピーを作るか
     copy_number = 5
-
     for i in range(copy_number):
-        random.shuffle(en_problems)
-        random.shuffle(jp_problems)
+        en_problems = random.sample(en_problem_candidates, problem_number)
+        jp_problems = random.sample(jp_problem_candidates, problem_number)
 
         # 対応するディレクトリへxlsxファイルへの書き込み
         en_workbook = xlsxwriter.Workbook(
@@ -162,7 +153,7 @@ while idx < total_length:
 
         # 15 * 4のテーブル
         length = len(en_problems)
-        mod = 9
+        mod = 10
 
         # 英語の問題
         en_worksheet.set_header(
@@ -183,7 +174,7 @@ while idx < total_length:
         add = 0
         index = 1
 
-        for i in range(18):
+        for i in range(problem_number):
             problem = ""
             if i < length:
                 problem = en_problems[i]
@@ -220,7 +211,7 @@ while idx < total_length:
         add = 0
         index = 1
 
-        for i in range(18):
+        for i in range(problem_number):
             problem = ""
 
             if i < length:
@@ -247,7 +238,3 @@ while idx < total_length:
                 add = 2
 
         jp_workbook.close()
-
-    current_page = current_page + 2
-
-    total_problem_set += 1

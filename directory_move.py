@@ -1,24 +1,6 @@
-'''
-構想
-ディレクトリを探索する
-pgの判断をファイル名からする->末尾の数字?（桁数が違うのをどう処理するか)
-pgに対して動詞Aとか形容詞Bとかのフォルダで分けるのは手動でページ数の範囲を打ち込んで処理する
-移動自体はshutil.moveで楽にできそう
-
-2級
-|-動詞A
-| |- en10-11
-| |- jp10-11
-| |- ...
-|-名詞A
-| |- en24-25
-| |- jp24-25
-|
-
-
-'''
-
-import os, shutil
+import PyPDF2
+import os
+import shutil
 
 
 def get_section(page, grade):
@@ -50,7 +32,7 @@ def get_section(page, grade):
             return "熟語B"
         else:
             return "None"
-    
+
     if grade == "pre_two":
         if 10 <= page <= 23:
             return "動詞A"
@@ -99,8 +81,10 @@ def get_page(filename):
 def get_lang(file_name):
     return file_name[4:6]
 
+
 path_from = "two_from"
 path_to = "two_to"
+
 
 def main(path_from, path_to, grade):
     os.mkdir(f"{path_to}/pdf")
@@ -138,14 +122,14 @@ def main(path_from, path_to, grade):
 
             new_file_name = f"{last_page-1}-{last_page}-{language}.{file_type}"
 
-            #rename
-            shutil.copy(f"{pathname}/{filename}", f"{pathname}/{new_file_name}")
+            # rename
+            shutil.copy(f"{pathname}/{filename}",
+                        f"{pathname}/{new_file_name}")
 
-            #move
-            shutil.move(f"{pathname}/{new_file_name}", f"{path_to}/{file_type}/{section}")
+            # move
+            shutil.move(f"{pathname}/{new_file_name}",
+                        f"{path_to}/{file_type}/{section}")
 
-
-import PyPDF2
 
 def compress(path, file_type):
     for directory in os.listdir(path):
@@ -153,7 +137,7 @@ def compress(path, file_type):
             continue
 
         merger = PyPDF2.PdfFileMerger()
-        files = os.listdir(os.path.join(path,directory))
+        files = os.listdir(os.path.join(path, directory))
         files.sort()
         for file in files:
             file_path = os.path.join(path, directory, file)
