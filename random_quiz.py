@@ -81,18 +81,6 @@ for page in page_list:
     if not os.path.exists(f"{dir_path}/jp"):
         os.mkdir(f"{dir_path}/jp")
 
-    if not os.path.exists(f"{dir_path}/en/pdf"):
-        os.mkdir(f"{dir_path}/en/pdf")
-
-    if not os.path.exists(f"{dir_path}/en/xlsx"):
-        os.mkdir(f"{dir_path}/en/xlsx")
-
-    if not os.path.exists(f"{dir_path}/jp/pdf"):
-        os.mkdir(f"{dir_path}/jp/pdf")
-
-    if not os.path.exists(f"{dir_path}/jp/xlsx"):
-        os.mkdir(f"{dir_path}/jp/xlsx")
-
     # 何部コピーを作るか
     copy_number = 5
     for i in range(copy_number):
