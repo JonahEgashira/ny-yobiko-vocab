@@ -17,4 +17,5 @@
 - 例: python singlepage.py four で4級のテスト作成
 - random_quiz.py -> grade_page.csvで指定されたページ範囲の単語の中から20単語を選んでまとめテスト作成
 - 例: python random_quiz.py pre-two で準2級のまとめテストを作成
-
+- move_random_quiz.py -> まとめテストのディレクトリ移動
+- 例: python move_random_quiz.py two 二級のまとめテスト移動
