@@ -19,7 +19,7 @@ for page in page_list:
     page_begin = page[0]
     page_end = page[1]
 
-    copy_number = 5
+    copy_number = 20
     for idx in range(copy_number):
         en_pdf_name = f"{grade}_en_quiz_pg{page_begin}-{page_end}_{idx + 1}.pdf"
         jp_pdf_name = f"{grade}_jp_quiz_pg{page_begin}-{page_end}_{idx + 1}.pdf"

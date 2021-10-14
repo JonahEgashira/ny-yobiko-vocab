@@ -82,7 +82,7 @@ for page in page_list:
         os.mkdir(f"{dir_path}/jp")
 
     # 何部コピーを作るか
-    copy_number = 5
+    copy_number = 20
     for i in range(copy_number):
         en_problems = random.sample(en_problem_candidates, problem_number)
         jp_problems = random.sample(jp_problem_candidates, problem_number)
